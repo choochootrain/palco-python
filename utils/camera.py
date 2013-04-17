@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import cv
+import datetime
+import os
 
 class Camera:
   HAAR_CASCADE_PATH = "/usr/share/opencv/haarcascades/haarcascade_frontalface_default.xml"
@@ -33,3 +35,10 @@ class Camera:
 
     cv.ShowImage("w1", self.image)
     cv.WaitKey(1)
+
+    return self.image
+
+  def save(self):
+    name = os.getcwd() + '/images/' + str(datetime.datetime.now()) + '.jpg'
+    cv.SaveImage(name, self.image)
+    return name
