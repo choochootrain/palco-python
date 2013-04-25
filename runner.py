@@ -6,9 +6,12 @@ import os
 import sys
 import readline
 
+import serial
+
 cam = camera.Camera()
 shell = bash.Bash()
 events = events.Events()
+#arduino = serial.Serial('COM1', 9600)
 
 if len(sys.argv) == 1:
   while True:

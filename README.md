@@ -12,3 +12,4 @@ Dependencies
 Opencv-python
 facebook-sdk
 eventful
+pyserial
