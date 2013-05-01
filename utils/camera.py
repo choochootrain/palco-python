@@ -8,7 +8,7 @@ from random import Random
 
 class Camera:
   HAAR_CASCADE_PATH = "/usr/share/opencv/haarcascades/haarcascade_frontalface_default.xml"
-  CAMERA_INDEX = 0
+  CAMERA_INDEX = 1
   LINE_TYPE = cv.CV_AA
   FONT = cv.InitFont(0, 1, 1, 0, 3, LINE_TYPE)
   WHITE = cv.Scalar(55, 255, 55)
