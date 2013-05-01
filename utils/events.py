@@ -15,7 +15,7 @@ class Events:
       evts.append((event['title'], event['venue_name']))
     return evts
 
-  def scrape(loc, q):
+  def scrape(self, loc, q):
     o = urllib2.build_opener()
     o.addheaders = [('user-agent', 'Mozilla/5.0')]
 
