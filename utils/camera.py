@@ -11,7 +11,7 @@ class Camera:
   CAMERA_INDEX = 1
   LINE_TYPE = cv.CV_AA
   FONT = cv.InitFont(0, 1, 1, 0, 3, LINE_TYPE)
-  WHITE = cv.Scalar(55, 255, 55)
+  WHITE = cv.Scalar(55, 255, 0)
 
   def __init__(self):
     cv.NamedWindow("w1", cv.CV_WINDOW_AUTOSIZE)
@@ -30,14 +30,17 @@ class Camera:
         self.faces.append((x,y,w,h))
 
   def step(self):
-    self.image = cv.QueryFrame(self.capture)
+    r_image = cv.QueryFrame(self.capture)
+    self.image = cv.CreateImage((r_image.height, r_image.width), r_image.depth, r_image.channels)
+    cv.Transpose(r_image, self.image)
+    cv.Flip(self.image, self.image, flipMode=0)
 
     self.detect_faces()
     print self.faces
 
     for (x,y,w,h) in self.faces:
-      cv.PutText(self.image, "THIS IDIOT IS STILL ON THE COMPUTER", (0, 30), Camera.FONT, Camera.WHITE)
-      arrow(self.image, (70, 40), (x, y), Camera.WHITE)
+      cv.PutText(self.image, "LOOK AT THIS IDIOT", (0, 30), Camera.FONT, Camera.WHITE)
+      #arrow(self.image, (200, 40), (x, y), Camera.WHITE)
 
     cv.ShowImage("w1", self.image)
     cv.WaitKey(1)
@@ -50,7 +53,10 @@ class Camera:
     return name
 
 def arrow(img, p1, p2, color):
-  angle = math.atan(float(p2[1]-p1[1])/(p2[0]-p1[0]))
+  denom = p2[0]-p1[0]
+  angle = 3*math.pi/2
+  if not denom == 0:
+    angle = math.atan(float(p2[1]-p1[1])/(p2[0]-p1[0]))
   p2a = (p2[0]-int(10*math.cos(angle+math.pi/4)),
          p2[1]-int(10*math.sin(angle+math.pi/4)))
   p2b = (p2[0]-int(10*math.cos(angle-math.pi/4)),
