@@ -2,11 +2,13 @@ import eventful
 import urllib2
 from bs4 import BeautifulSoup
 import re
+import random
 
 class Events:
 
   def __init__(self):
     self.api = eventful.API('fDJhdqLtn39Nbfcq')
+    self.cache = None
 
   def search(self, query='', location='Berkeley'):
     evts = []
@@ -31,7 +33,7 @@ class Events:
       for i in j:
         for x in re.findall("<dd(w*)>(.*)</dd>", str(i)):
           l.append(x[1])
-      return l
+    return l[random.randint(0,len(l)-1)]
 
   def nearby(self, query=''):
     events1 = self.search(query, 'San Francisco')
@@ -43,3 +45,10 @@ class Events:
     events7 = self.scrape('San+francisco', 'music')
 
     return list(set(events1+events2+events3+events4+events5+events6+events7))
+
+  def fast(self):
+    if self.cache:
+      return self.cache
+    else:
+      self.cache = self.search('music', 'San Francisco')
+      return self.cache

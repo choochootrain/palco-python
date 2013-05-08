@@ -29,21 +29,22 @@ class Camera:
       for (x,y,w,h),n in detected:
         self.faces.append((x,y,w,h))
 
-  def step(self):
+  def step(self, show):
     r_image = cv.QueryFrame(self.capture)
     self.image = cv.CreateImage((r_image.height, r_image.width), r_image.depth, r_image.channels)
     cv.Transpose(r_image, self.image)
     cv.Flip(self.image, self.image, flipMode=0)
 
     self.detect_faces()
-    print self.faces
 
     for (x,y,w,h) in self.faces:
       cv.PutText(self.image, "LOOK AT THIS IDIOT", (0, 30), Camera.FONT, Camera.WHITE)
       #arrow(self.image, (200, 40), (x, y), Camera.WHITE)
 
-    cv.ShowImage("w1", self.image)
-    cv.WaitKey(1)
+    if show:
+      print self.faces
+      cv.ShowImage("w1", self.image)
+      cv.WaitKey(1)
 
     return self.image
 
