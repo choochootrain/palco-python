@@ -16,7 +16,9 @@ events = events.Events()
 if len(sys.argv) == 1:
   while True:
     cmd = raw_input()
-    if cmd == 'cam':
+    if cmd == 'quit':
+      exit()
+    elif cmd == 'cam':
       cam.step(False)
       print cam.save()
     elif cmd == 'programs':
@@ -24,6 +26,9 @@ if len(sys.argv) == 1:
     elif cmd == 'event':
       evts = events.fast()
       print evts[random.randint(0,len(evts)-1)]
+    elif 'say' in cmd:
+      cmds = cmd.split(' ')
+      print shell.run(os.getcwd() + '/utils/./say.sh ' + cmds[1])
 else:
   while True:
     cam.step(True)
