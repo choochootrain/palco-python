@@ -62,6 +62,9 @@ class Camera:
 
     return self.image
 
+  def face(self):
+    return self.faces
+
   def save(self):
     name = os.getcwd() + '/images/' + str(datetime.datetime.now()) + '.jpg'
     cv.SaveImage(name, self.image)
