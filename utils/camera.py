@@ -9,7 +9,7 @@ from random import Random
 
 class Camera:
   HAAR_CASCADE_PATH = "/usr/share/opencv/haarcascades/haarcascade_frontalface_default.xml"
-  EXTERNAL = False
+  EXTERNAL = True
   CAMERA_INDEX = 1 if EXTERNAL else 0
   LINE_TYPE = cv.CV_AA
   FONT = cv.InitFont(0, 1, 1, 0, 3, LINE_TYPE)

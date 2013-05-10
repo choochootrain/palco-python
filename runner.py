@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from utils import camera, bash, events
+from itertools import cycle
 import time
 import os
 import sys
@@ -14,12 +15,18 @@ shell = bash.Bash()
 events = events.Events()
 present = False
 responded = False
+found = 0
+lost = 0
 
-welcomes = ['lazybones', 'alive', 'buddy']
-insults = ['event', 'facebook', 'homework', 'notpopular']
-
-def rand(arry):
-  return arry[int(random.random()*len(arry))]
+welcomes = cycle(['lazybones', 'alive', 'buddy'])
+insults = cycle(['facebook', 'homework', 'notpopular'])
+events = cycle([
+    'http://portugal2013sf-es2.eventbrite.com',
+    'http://gatsbypremiere-es2.eventbrite.com',
+    'http://cfadrinkupsf-es2.eventbrite.com',
+    'http://tchotour-es2.eventbrite.com',
+    'http://unreasonabledrinkssf-es2.eventbrite.com'
+])
 
 def say(msg):
   return shell.run(os.getcwd() + '/utils/./say.sh ' + msg)
@@ -47,15 +54,17 @@ else:
 
     print present
     if present and not responded:
-      say(rand(welcomes))
-      responded = True
-
-    if not present:
-      responded = False
+      if time.time() - found > 3:
+        say(welcomes.next())
+        responded = True
 
     if present:
-      if int(time.time()) % 8 == 0:
-        progs = shell.run(os.getcwd() + '/utils/./times.sh')
+      found = time.time()
 
-        if 'chrome' in progs and random.random() > 0.95:
-          say(rand(insults))
+      if int(time.time()) % 30 == 0:
+        progs = shell.run(os.getcwd() + '/utils/./times.sh')
+        if random.random() > 0.5:
+          say('event')
+          shell.run('google-chrome ' + events.next())
+        else:
+          say(insults.next())
